@@ -61,6 +61,44 @@
                         key-positions = <5 6>;   // T + Y
                         bindings = <&kp CAPS>;
                 };
+
+                // Mirror-key media combos
+                combo_vol_up {
+                        timeout-ms = <40>;
+                        layers = <0>;
+                        key-positions = <13 22>; // A + ;
+                        bindings = <&kp C_VOL_UP>;
+                };
+                combo_vol_dn {
+                        timeout-ms = <40>;
+                        layers = <0>;
+                        key-positions = <14 21>; // S + L
+                        bindings = <&kp C_VOL_DN>;
+                };
+                combo_mute {
+                        timeout-ms = <40>;
+                        layers = <0>;
+                        key-positions = <15 20>; // D + K
+                        bindings = <&kp C_MUTE>;
+                };
+                combo_play_pause {
+                        timeout-ms = <40>;
+                        layers = <0>;
+                        key-positions = <16 19>; // F + J
+                        bindings = <&kp C_PP>;
+                };
+                combo_next {
+                        timeout-ms = <40>;
+                        layers = <0>;
+                        key-positions = <4 7>;   // R + U
+                        bindings = <&kp C_NEXT>;
+                };
+                combo_prev {
+                        timeout-ms = <40>;
+                        layers = <0>;
+                        key-positions = <28 31>; // V + M
+                        bindings = <&kp C_PREV>;
+                };
         };
 
         keymap {
