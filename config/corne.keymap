@@ -11,6 +11,29 @@
 #include <dt-bindings/zmk/pointing.h>
 
 / {
+        macros {
+                arrow_r: arrow_r {
+                        compatible = "zmk,behavior-macro";
+                        #binding-cells = <0>;
+                        bindings = <&kp MINUS &kp GT>;
+                };
+                arrow_l: arrow_l {
+                        compatible = "zmk,behavior-macro";
+                        #binding-cells = <0>;
+                        bindings = <&kp LT &kp MINUS>;
+                };
+                lock_screen: lock_screen {
+                        compatible = "zmk,behavior-macro";
+                        #binding-cells = <0>;
+                        bindings = <&kp LG(LC(Q))>;
+                };
+                emoji: emoji {
+                        compatible = "zmk,behavior-macro";
+                        #binding-cells = <0>;
+                        bindings = <&kp LC(LG(SPACE))>;
+                };
+        };
+
         combos {
                 compatible = "zmk,combos";
 
@@ -150,13 +173,13 @@
                 raise_layer {
 // -----------------------------------------------------------------------------------------
 // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BSPC |
-// | CTRL | PRV | PLY | NXT |PGDN |PGUP |   |  -  |  =  |  [  |  ]  |  \  |  `   |
-// | SHFT |MUTE |VOLD |VOLU |BRID |BRIU |   |  _  |  +  |  {  |  }  | "|" |  ~   |
+// | CTRL | LCK | EMJ |  <- |  -> |     |   |  -  |  =  |PGDN |PGUP |  \  |  `   |
+// | SHFT |     |     |     |     |     |   |  _  |  +  |BRID |BRIU | "|" |  ~   |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
                         bindings = <
-   &kp TAB   &kp EXCL  &kp AT     &kp LA(N3) &kp DLLR      &kp PRCNT        &kp CARET &kp AMPS  &kp ASTRK &kp LPAR &kp RPAR &kp BSPC
-   &kp LCTRL &kp C_PREV &kp C_PP  &kp C_NEXT &kp PG_DN      &kp PG_UP      &kp MINUS &kp EQUAL &kp LBKT  &kp RBKT &kp BSLH &kp GRAVE
-   &kp LSHFT &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP &kp C_BRI_DN &kp C_BRI_UP &kp UNDER &kp PLUS  &kp LBRC  &kp RBRC &kp PIPE &kp TILDE
+   &kp TAB   &kp EXCL     &kp AT &kp LA(N3) &kp DLLR &kp PRCNT   &kp CARET &kp AMPS  &kp ASTRK    &kp LPAR     &kp RPAR &kp BSPC
+   &kp LCTRL &lock_screen &emoji &arrow_l   &arrow_r &trans      &kp MINUS &kp EQUAL &kp PG_DN    &kp PG_UP    &kp BSLH &kp GRAVE
+   &kp LSHFT &trans       &trans &trans     &trans   &trans      &kp UNDER &kp PLUS  &kp C_BRI_DN &kp C_BRI_UP &kp PIPE &kp TILDE
                              &kp LGUI &trans   &kp SPACE   &kp RET   &trans    &kp RALT
                         >;
                 };
