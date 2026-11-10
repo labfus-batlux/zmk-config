@@ -10,7 +10,27 @@
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 1500 // default: 600
 #include <dt-bindings/zmk/pointing.h>
 
+#define BASE    0
+#define LOWER   1
+#define RAISE   2
+#define MOUSE   3
+#define CAD     4
+#define CAD_FN  5
+#define CAD_NUM 6
+
 / {
+        behaviors {
+                // CAD mode Tab: tap = Tab, hold = CAD_NUM layer.
+                // "balanced" so a fast Tab->G roll (edit mode, then grab) stays a Tab.
+                cad_tab: cad_tab {
+                        compatible = "zmk,behavior-hold-tap";
+                        #binding-cells = <2>;
+                        flavor = "balanced";
+                        tapping-term-ms = <200>;
+                        bindings = <&mo>, <&kp>;
+                };
+        };
+
         macros {
                 arrow_r: arrow_r {
                         compatible = "zmk,behavior-macro";
@@ -87,6 +107,16 @@
                         bindings = <&kp CAPS>;
                 };
 
+                // All three left thumb keys together: toggle CAD mode on/off.
+                // Active on BASE (to enter) and CAD (to exit); left hand only.
+                combo_cad_toggle {
+                        timeout-ms = <80>;
+                        require-prior-idle-ms = <150>;
+                        layers = <BASE CAD>;
+                        key-positions = <36 37 38>;
+                        bindings = <&tog CAD>;
+                };
+
                 // Mirror-key media combos (wider timeout for cross-hand reach)
                 combo_vol_up {
                         timeout-ms = <80>;
@@ -134,8 +164,8 @@
         conditional_layers {
                 compatible = "zmk,conditional-layers";
                 mouse_layer {
-                        if-layers = <1 2>;
-                        then-layer = <3>;
+                        if-layers = <LOWER RAISE>;
+                        then-layer = <MOUSE>;
                 };
         };
 
@@ -143,6 +173,7 @@
                 compatible = "zmk,keymap";
 
                 default_layer {
+                        display-name = "BASE";
 // -----------------------------------------------------------------------------------------
 // |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BSPC |
 // | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
@@ -157,6 +188,7 @@
                 };
 
                 lower_layer {
+                        display-name = "LOWER";
 // -----------------------------------------------------------------------------------------
 // |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BSPC |
 // | CTRL |SELA | SHFT| ALT | GUI | SS▢ |   | LFT | DWN |  UP | RGT |  F4 | F11  |
@@ -171,6 +203,7 @@
                 };
 
                 raise_layer {
+                        display-name = "RAISE";
 // -----------------------------------------------------------------------------------------
 // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | DEL  |
 // | CTRL | LCK | EMJ |  <- |  -> |     |   |  -  |  =  |PGDN |PGUP |  \  |  `   |
@@ -185,6 +218,7 @@
                 };
 
                 mouse_layer {
+                        display-name = "MOUSE";
 // -----------------------------------------------------------------------------------------
 // |      |     | ZM- |SC_U | ZM+ |     |   |     |LCLK | M_U |RCLK |     |      |
 // |      |     |SC_L |SC_D |SC_R |     |   |     | M_L | M_D | M_R |     |      |
@@ -195,6 +229,60 @@
    &trans &trans &msc SCRL_LEFT &msc SCRL_DOWN &msc SCRL_RIGHT &trans  &trans       &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans       &trans
    &trans &trans &trans         &trans         &trans          &trans  &bt BT_SEL 0 &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3    &bt BT_SEL 4 &bt BT_CLR
                                          &trans &trans &trans     &trans &trans &trans
+                        >;
+                };
+
+                cad_layer {
+                        display-name = "CAD";
+// Toggled with the 3-thumb combo. Left alphas are untouched so app hotkeys
+// (G/R/S, W/E/R, Q, F, X, Tab...) stay where your fingers already know them.
+// Right half falls through to BASE.
+// -----------------------------------------------------------------------------------------
+// |TAB/NUM|    |     |     |     |     |   |     |     |     |     |     |      |
+// |       |     |     |     |     |     |   |     |     |     |     |     |      |
+// |       |     |     |     |     |     |   |     |     |     |     |     |      |
+//                    | GUI | FN  | ALT |   |     |     |     |
+                        bindings = <
+   &cad_tab CAD_NUM TAB &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
+   &trans               &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
+   &trans               &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
+                                   &trans &mo CAD_FN &kp LALT   &trans &trans &trans
+                        >;
+                };
+
+                cad_fn_layer {
+                        display-name = "CAD-FN";
+// Hold middle thumb: right-hand letters mirrored onto the left hand
+// (same finger, other hand). Ctrl/Shift/Alt/GUI stay live for Alt+H, Shift+N, Ctrl+J...
+// -----------------------------------------------------------------------------------------
+// |  DEL |  P  |  O  |  I  |  U  |  Y  |   |     |     |     |     |     |      |
+// | CTRL | ESC |  L  |  K  |  J  |  H  |   |     |     |     |     |     |      |
+// | SHFT |  /  |  .  |  ,  |  M  |  N  |   |     |     |     |     |     |      |
+//                    | SPC |  ▼  | ALT |   |     |     |     |
+                        bindings = <
+   &kp DEL &kp P    &kp O   &kp I     &kp U &kp Y   &trans &trans &trans &trans &trans &trans
+   &trans  &kp ESC  &kp L   &kp K     &kp J &kp H   &trans &trans &trans &trans &trans &trans
+   &trans  &kp FSLH &kp DOT &kp COMMA &kp M &kp N   &trans &trans &trans &trans &trans &trans
+                                &kp SPACE &trans &trans   &trans &trans &trans
+                        >;
+                };
+
+                cad_num_layer {
+                        display-name = "CAD-NUM";
+// Hold Tab: numbers, real numpad keys for views, focus/search.
+// Blender: KP1 front, KP3 right, KP7 top (add Ctrl for opposite), KP. frame selected,
+// HOME frame all, KP5 persp/ortho, KP0 camera, KP/ local view, F3 search.
+// Unreal: END snap to floor, 1-5 / Ctrl+1-5 bookmarks.
+// -----------------------------------------------------------------------------------------
+// |  ▼   |  1  |  2  |  3  |  4  |  5  |   |     |     |     |     |     |      |
+// | CTRL | KP1 | KP3 | KP7 | KP. |HOME |   |     |     |     |     |     |      |
+// | SHFT | KP5 | KP0 | KP/ | END | F3  |   |     |     |     |     |     |      |
+//                    | GUI | ENT | ALT |   |     |     |     |
+                        bindings = <
+   &trans &kp N1    &kp N2    &kp N3       &kp N4     &kp N5     &trans &trans &trans &trans &trans &trans
+   &trans &kp KP_N1 &kp KP_N3 &kp KP_N7    &kp KP_DOT &kp HOME   &trans &trans &trans &trans &trans &trans
+   &trans &kp KP_N5 &kp KP_N0 &kp KP_SLASH &kp END    &kp F3     &trans &trans &trans &trans &trans &trans
+                                 &trans &kp RET &trans   &trans &trans &trans
                         >;
                 };
         };
