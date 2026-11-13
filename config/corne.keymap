@@ -93,20 +93,21 @@
                         bindings = <&kp CAPS>;
                 };
 
-                // One-hand PAD layer lock: press the outer two thumb keys of either
-                // half together (one thumb across both). Same gesture unlocks.
+                // One-hand PAD layer lock: all three thumb keys of either half together.
+                // Same gesture unlocks. Three keys (not two) so mashing two thumb keys
+                // with one thumb for Cmd+layer+number still works.
                 combo_pad_toggle_l {
-                        timeout-ms = <50>;
+                        timeout-ms = <80>;
                         require-prior-idle-ms = <150>;
                         layers = <BASE PAD>;
-                        key-positions = <36 37>; // left outer + middle thumb
+                        key-positions = <36 37 38>; // left thumbs
                         bindings = <&tog PAD>;
                 };
                 combo_pad_toggle_r {
-                        timeout-ms = <50>;
+                        timeout-ms = <80>;
                         require-prior-idle-ms = <150>;
                         layers = <BASE PAD>;
-                        key-positions = <40 41>; // right middle + outer thumb
+                        key-positions = <39 40 41>; // right thumbs
                         bindings = <&tog PAD>;
                 };
 
@@ -236,7 +237,7 @@
 // index 7/4/1, middle 8/5/2, ring 9/6/3).
 // Digits are real keypad codes (also drive Blender numpad views).
 // BACK/FWD = Cmd+[ / Cmd+]. Scroll keys repeat while held.
-// Lock/unlock: outer two thumb keys of either half together.
+// Lock/unlock: all three thumb keys of either half together.
 // -----------------------------------------------------------------------------------------
 // | FWD  |BACK |  9  |  8  |  7  |SC_U |   |SC_U |  7  |  8  |  9  |BACK | FWD  |
 // | VOL+ |VOL- |  6  |  5  |  4  | ENT |   | ENT |  4  |  5  |  6  |VOL- | VOL+ |
