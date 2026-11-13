@@ -228,20 +228,21 @@
                 pad_layer {
                         display-name = "PAD";
 // Locked one-hand layer; each half is complete on its own, so either hand can run it.
-// Same finger does the same job on both halves; anything with a direction
-// (digits, back/fwd, vol-/vol+) still reads left-to-right.
+// The left half is an exact mirror image of the right: every finger does the same
+// job on both hands. The right half is the reference (standard numpad fingering:
+// index 7/4/1, middle 8/5/2, ring 9/6/3).
 // Digits are real keypad codes (also drive Blender numpad views).
 // BACK/FWD = Cmd+[ / Cmd+]. Scroll keys repeat while held.
 // Lock/unlock: outer two thumb keys of either half together.
 // -----------------------------------------------------------------------------------------
-// | BACK | FWD |  7  |  8  |  9  |SC_U |   |SC_U |  7  |  8  |  9  |BACK | FWD  |
-// | MUTE | PLAY|  4  |  5  |  6  | ENT |   | ENT |  4  |  5  |  6  |PLAY | MUTE |
-// | VOL- |VOL+ |  1  |  2  |  3  |SC_D |   |SC_D |  1  |  2  |  3  |VOL- | VOL+ |
+// | FWD  |BACK |  9  |  8  |  7  |SC_U |   |SC_U |  7  |  8  |  9  |BACK | FWD  |
+// | MUTE |PLAY |  6  |  5  |  4  | ENT |   | ENT |  4  |  5  |  6  |PLAY | MUTE |
+// | VOL+ |VOL- |  3  |  2  |  1  |SC_D |   |SC_D |  1  |  2  |  3  |VOL- | VOL+ |
 //                    |BSPC |  .  |  0  |   |  0  |  .  |BSPC |
                         bindings = <
-   &kp LG(LBKT) &kp LG(RBKT) &kp KP_N7 &kp KP_N8 &kp KP_N9 &msc SCRL_UP     &msc SCRL_UP   &kp KP_N7 &kp KP_N8 &kp KP_N9 &kp LG(LBKT) &kp LG(RBKT)
-   &kp C_MUTE   &kp C_PP     &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp KP_ENTER     &kp KP_ENTER   &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp C_PP     &kp C_MUTE
-   &kp C_VOL_DN &kp C_VOL_UP &kp KP_N1 &kp KP_N2 &kp KP_N3 &msc SCRL_DOWN   &msc SCRL_DOWN &kp KP_N1 &kp KP_N2 &kp KP_N3 &kp C_VOL_DN &kp C_VOL_UP
+   &kp LG(RBKT) &kp LG(LBKT) &kp KP_N9 &kp KP_N8 &kp KP_N7 &msc SCRL_UP     &msc SCRL_UP   &kp KP_N7 &kp KP_N8 &kp KP_N9 &kp LG(LBKT) &kp LG(RBKT)
+   &kp C_MUTE   &kp C_PP     &kp KP_N6 &kp KP_N5 &kp KP_N4 &kp KP_ENTER     &kp KP_ENTER   &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp C_PP     &kp C_MUTE
+   &kp C_VOL_UP &kp C_VOL_DN &kp KP_N3 &kp KP_N2 &kp KP_N1 &msc SCRL_DOWN   &msc SCRL_DOWN &kp KP_N1 &kp KP_N2 &kp KP_N3 &kp C_VOL_DN &kp C_VOL_UP
                                   &kp BSPC &kp KP_DOT &kp KP_N0   &kp KP_N0 &kp KP_DOT &kp BSPC
                         >;
                 };
