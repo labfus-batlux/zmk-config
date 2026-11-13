@@ -81,13 +81,13 @@
                         bindings = <&kp RBRC>;
                 };
                 combo_caps_word {
-                        timeout-ms = <80>;
+                        timeout-ms = <50>;
                         layers = <0>;
                         key-positions = <17 18>; // G + H
                         bindings = <&caps_word>;
                 };
                 combo_caps_lock {
-                        timeout-ms = <80>;
+                        timeout-ms = <50>;
                         layers = <0>;
                         key-positions = <5 6>;   // T + Y
                         bindings = <&kp CAPS>;
@@ -110,42 +110,45 @@
                         bindings = <&tog PAD>;
                 };
 
-                // Mirror-key media combos (wider timeout for cross-hand reach)
+                // Mirror-key media combos. 50 ms window (was 80) so fast cross-hand rolls
+                // like "ls" type letters; idle guard keeps them from firing mid-word.
                 combo_vol_up {
-                        timeout-ms = <80>;
+                        timeout-ms = <50>;
+                        require-prior-idle-ms = <150>;
                         layers = <0>;
                         key-positions = <13 22>; // A + ;
                         bindings = <&kp C_VOL_UP>;
                 };
                 combo_vol_dn {
-                        timeout-ms = <80>;
+                        timeout-ms = <50>;
+                        require-prior-idle-ms = <150>;
                         layers = <0>;
                         key-positions = <14 21>; // S + L
                         bindings = <&kp C_VOL_DN>;
                 };
                 combo_mute {
-                        timeout-ms = <80>;
+                        timeout-ms = <50>;
                         require-prior-idle-ms = <150>;
                         layers = <0>;
                         key-positions = <15 20>; // D + K
                         bindings = <&kp C_MUTE>;
                 };
                 combo_play_pause {
-                        timeout-ms = <80>;
+                        timeout-ms = <50>;
                         require-prior-idle-ms = <150>;
                         layers = <0>;
                         key-positions = <16 19>; // F + J
                         bindings = <&kp C_PP>;
                 };
                 combo_next {
-                        timeout-ms = <80>;
+                        timeout-ms = <50>;
                         require-prior-idle-ms = <150>;
                         layers = <0>;
                         key-positions = <4 7>;   // R + U
                         bindings = <&kp C_NEXT>;
                 };
                 combo_prev {
-                        timeout-ms = <80>;
+                        timeout-ms = <50>;
                         require-prior-idle-ms = <150>;
                         layers = <0>;
                         key-positions = <28 31>; // V + M
